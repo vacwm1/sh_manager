@@ -303,10 +303,7 @@ const getRoomsAndCustomers = () => {
         customersList.forEach(customer => {
             if (room.name == customer.roomName) {
                 const customerValues = getListValues(customer, 'id', 'roomName', 'surname', 'total');
-                
-                customerValues.forEach(value => {
-                    values[position].push(value);
-                });
+                values[position].push(customerValues);
             }
         }).value();
     }).value();
