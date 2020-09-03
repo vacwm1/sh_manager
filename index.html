@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>SH Manager</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://kit.fontawesome.com/591259bba7.js" crossorigin="anonymous"></script> 
+    </head>
+    <body>
+        <div id='logoBar'>
+            <div id='title'>
+                <img id='logo' src='https://www.starcentersportinghotel.it/wp-content/uploads/2016/01/cropped-star-center-sporting-hotel-512.png'>
+                <h2>SH Manager</h2>
+            </div> 
+        </div> 
+        <div id='listButtons'>
+            <button class='listButton button' id='listRooms'><i class='fas fa-bed'></i>Stanze</button>
+            <button class='listButton button' id='listCustomers'><i class='fas fa-users'></i>Clienti</button>
+            <button class='listButton button' id='listServices'><i class='fas fa-euro-sign'></i>Servizi</button> 
+            <button class='listButton winBtn button' id='openPrint'><i class='fas fa-print'></i>Stampa</button>
+        </div>
+        <div id='lists'>
+            <table class='list' id='rooms'>
+                <tr>
+                    <th></th>
+                    <th>
+                        <div id='monthBar'>
+                            <i class="changeMonth fas fa-angle-left" id='prevMonth'></i>
+                            <h2 id='month-year'></h2>
+                            <i class="changeMonth fas fa-angle-right" id='nextMonth'></i>
+                        </div>
+                        <ul id='days'></ul>
+                    </th>
+                    <th class='textColumn'>Tipo</th>
+                </tr>
+            </table>
+            <table class='list' id='customers'>
+                <tr>
+                    <th>Stanza</th><th>Nome</th>
+                    <th>Cognome</th>
+                    <th>Data Inizio</th>
+                    <th>Data Fine</th>
+                    <th>Servizi</th>
+                    <th>Totale</th>
+                </tr>
+            </table>
+            <table class='list' id='services'>
+                <tr>
+                    <th>Nome</th><th>Prezzo</th>
+                </tr>
+            </table>
+        </div>
+        <div id='windowLevel'>
+            <div class='window' id='roomWindow'>
+                <form name='newRoom' method='POST'>
+                    <label>Nome:</label><input type='text' name='name' maxlength='10'/>
+                    <label>Tipo:</label>
+                    <select name='type'>
+                        <option value='singola'>Singola</option>
+                        <option value='doppia'>Doppia</option>
+                        <option value='matrimoniale'>Matrimoniale</option>
+                        <option value='tripla'>Tripla</option>
+                    </select>
+                    <input type="submit" class='operationButton button' id='roomButton'/>
+                </form>
+            </div>
+            <div class='window' id='customerWindow'>
+                <form name='newCustomer' method='POST'>
+                    <label>Stanza:</label><select name='roomName'></select>
+                    <label>Nome:</label><input type='text' name='name'/>
+                    <label>Cognome:</label><input type='text' name='surname'/>
+                    <label>Data Inzio:</label><input type='date' name='startDate'/>
+                    <label>Data Fine:</label><input type='date' name='endDate'/>
+                    <label>Servizi:</label>
+                    <input type="submit" class='operationButton button' id='customerButton'/>
+                </form>
+            </div>
+            <div class='window' id='serviceWindow'>
+                <form name='newService' method='POST'>
+                    <label>Nome:</label><input type='text' name='name'/>
+                    <label>Prezzo:</label><input type="number" name='price' min="1" step='any'/>
+                    <input type='submit' class='operationButton button' id='serviceButton'>
+                </form>
+            </div>
+            <div class='window' id='printWindow'>
+                <button class='operationButton button' id='printButton'><i class='fas fa-print'></i></button>
+                <table class='list' id='printList'>
+                    <tr>
+                        <th>Stanza</th>
+                        <th>Tipo</th>
+                        <th>Note</th>
+                        <th>Nome</th>
+                        <th>Data Inizio</th>
+                        <th>Data Fine</th>
+                        <th>Servizi</th>
+                    </tr>
+                </table>
+            </div>
+            <div class='window' id='confirmWindow'>
+                <h2>Siete sicuri di voler eliminare quest'elemento?</h2>
+                <button class='operationButton button' id='confirmYes'>Sì</button>
+                <button class='button' id='confirmNo'>No</button>
+            </div>
+        </div>
+        <div id="ctxMenu">
+            <menu class='ctxItem winBtn' id='openAdd'></menu>
+            <menu class='ctxItem winBtn' id='openEdit'></menu>
+            <menu class='ctxItem winBtn' id='openDel'></menu>
+            <menu class='ctxItem' id='tags'>
+                <i class='fas fa-tag'></i>Etichette<i class='fas fa-chevron-right'></i>
+                <div class='ctxSubMenu' id='tagsList'></div>
+            </menu>
+        </div>
+        <div id='customerLineTitle'></div>
+    </body>
+    <script type='text/javascript' src='interface3.0.js'></script>
+</html>

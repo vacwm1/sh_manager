@@ -1,0 +1,17 @@
+{
+  "name": "sh-manager",
+  "version": "1.0.0",
+  "description": "Star Center Sporting Hotel Room Management System",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "vacwm",
+  "license": "ISC",
+  "devDependencies": {
+    "electron-nightly": "^11.0.0-nightly.20200703"
+  },
+  "dependencies": {
+    "lowdb": "^1.0.0"
+  }
+}
