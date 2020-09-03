@@ -55,7 +55,6 @@ class Element {
 
         Object.entries(this.form).forEach(([key, object]) => {
             if (object.name && object.value) list[object.name] = object.value;
-            else list[object.name] = object.placeholder || object.value;
         });
         
         this.currentList.find({id: selectedElement.id}).assign(list).write();
@@ -95,48 +94,30 @@ const addClassesToChildren = (parent, ...classes) => {
 
 const buildPrintList = () => {
     const table = document.querySelector('#printList'),
-        values = {};
+        values = getRoomsAndCustomers();
 
-    roomsList.forEach(room => {
-        values[room.name] = [room.type, room.tags];
+    Object.entries(values).forEach(([key, value]) => {
+        const row = document.createElement('tbody'),
+            id = row.id = `pR${key}`;
+            roomValues = value[0],
+            customerNum = (value.length - 1) / 4 + 1;
+            
+        if (roomValues[2] == '') roomValues[2] = `<input type='text' class='noteBox'/>`;
+        row.insertAdjacentHTML('beforeend', 
+        `<tr>
+            <td rowspan='${customerNum}'>
+                ${roomValues.join(`</td><td rowspan='${customerNum}'>`)}
+            </td>
+        </tr>`);
 
-        customersList.forEach(customer => {
-            if (room.name == customer.roomName) {
-                const customerValues = getListValues(customer, 'id', 'roomName', 'surname', 'total');
-
-                customerValues.forEach(value => {
-                    values[room.name].push(value);
-                });
-            }
-        }).value();
-    }).value();
-
-    Object.entries(values).forEach(([key, objects]) => {
-        const tbody = document.createElement('tbody'),
-            row = document.createElement('tr'),
-            rowspan = (objects.length - 2) / 4;
-
-        for (i=0; i<rowspan; i++) {
-            if (i == 0) row.innerHTML = `<td>${key}</td>`; else row.innerHTML = '<td></td>'
-            tbody.append(row);
-
-            customerValues = objects.splice(1 + (rowspan - 1) * 5);
-            customerValues.forEach(value => {
-                if (typeof value != 'string') {
-                    value.forEach(v => {
-                        customerValues.splice(customerValues.indexOf(value), 1, v);
-                    })
-                }
-
-                if (value.length == 0) value = `<input class='noteBox' type='text'/>`;
-
-                row.insertAdjacentHTML('beforeend', `<td>${value}</td>`);
-            });
-
-            console.log(customerValues)
-        }
+        table.append(row);
         
-        table.append(tbody)
+        for (i=0; i<customerNum - 1; i++) {
+            const elements = value.slice(1 + i * 4, 5 + i * 4),
+                target = document.querySelector(`#${id}`);
+
+            target.insertAdjacentHTML('beforeend', `<tr><td>${elements.join('</td><td>')}</td></tr>`)
+        }
     })
 }
 
@@ -306,6 +287,29 @@ const getListValues = (list, ...exc) => {
 
         if (bool) values.push(object);
     })
+
+    return values;
+}
+
+const getRoomsAndCustomers = () => {
+    const values = {};
+
+    roomsList.forEach(room => {
+        const roomValues = getListValues(room, 'id'),
+            position = roomsList.indexOf(room);
+
+        values[position] = [roomValues];
+
+        customersList.forEach(customer => {
+            if (room.name == customer.roomName) {
+                const customerValues = getListValues(customer, 'id', 'roomName', 'surname', 'total');
+                
+                customerValues.forEach(value => {
+                    values[position].push(value);
+                });
+            }
+        }).value();
+    }).value();
 
     return values;
 }
