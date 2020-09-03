@@ -124,7 +124,8 @@ const buildPrintList = () => {
 
         for (i=1; i<value.length; i++) {
             const customer = value[i];
-
+            
+            customer.slice(1, 3).forEach(date => customer[customer.indexOf(date)] = new Date(date).toLocaleDateString('it-IT'));
             customer[3] = customer[3].join(', </br>');
             
             switch (i) {
@@ -350,7 +351,7 @@ const getRoomsAndCustomers = () => {
 
         customersList.forEach(customer => {
             if (room.name == customer.roomName && new Date(customer.endDate) > today) {
-                const customerValues = getListValues(customer, 'id', 'roomName', 'surname', 'total');
+                const customerValues = getListValues(customer, 'id', 'roomName', 'name', 'total');
                 values[position].push(customerValues);
             }
         }).value();

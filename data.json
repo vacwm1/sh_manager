@@ -4,29 +4,25 @@
       "id": 0,
       "name": "101",
       "type": "singola",
-      "tags": [],
-      "services": []
+      "tags": []
     },
     {
       "id": 1,
       "name": "102",
       "type": "doppia",
-      "tags": [],
-      "services": []
+      "tags": []
     },
     {
       "id": 2,
       "name": "103",
       "type": "matrimoniale",
-      "tags": [],
-      "services": []
+      "tags": []
     },
     {
       "id": 3,
       "name": "104",
       "type": "tripla",
-      "tags": [],
-      "services": []
+      "tags": []
     },
     {
       "id": 4,
@@ -170,6 +166,18 @@
   "Customers": [
     {
       "id": 0,
+      "roomName": "102",
+      "name": "asdasda",
+      "surname": "sdasdasd",
+      "startDate": "2020-09-16",
+      "endDate": "2020-09-19",
+      "services": [
+        "Pensione Completa"
+      ],
+      "total": "55€"
+    },
+    {
+      "id": 1,
       "roomName": "101",
       "name": "asdasdas",
       "surname": "dasdasdasd",
@@ -182,12 +190,24 @@
       "total": "55€"
     },
     {
-      "id": 1,
+      "id": 2,
       "roomName": "108",
       "name": "asdasdasd",
       "surname": "asdasdasdasdasd",
       "startDate": "2021-01-05",
       "endDate": "2021-01-05",
+      "services": [
+        "Mezza Pensione"
+      ],
+      "total": "45€"
+    },
+    {
+      "id": 3,
+      "roomName": "101",
+      "name": "adfsdfsd",
+      "surname": "fsdfsdfsdf",
+      "startDate": "2020-09-07",
+      "endDate": "2020-09-12",
       "services": [
         "Mezza Pensione"
       ],
