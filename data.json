@@ -3,26 +3,30 @@
     {
       "id": 0,
       "name": "101",
-      "type": "doppia",
-      "tags": []
+      "type": "singola",
+      "tags": [],
+      "services": []
     },
     {
       "id": 1,
       "name": "102",
       "type": "doppia",
-      "tags": []
+      "tags": [],
+      "services": []
     },
     {
       "id": 2,
       "name": "103",
-      "type": "doppia",
-      "tags": []
+      "type": "matrimoniale",
+      "tags": [],
+      "services": []
     },
     {
       "id": 3,
       "name": "104",
-      "type": "doppia",
-      "tags": []
+      "type": "tripla",
+      "tags": [],
+      "services": []
     },
     {
       "id": 4,
@@ -167,27 +171,27 @@
     {
       "id": 0,
       "roomName": "101",
-      "name": "fuc",
-      "surname": "you",
-      "startDate": "2020-09-09",
-      "endDate": "2020-09-18",
+      "name": "asdasdas",
+      "surname": "dasdasdasd",
+      "startDate": "2020-09-10",
+      "endDate": "2020-09-12",
       "services": [
+        "Mezza Pensione",
         "Pensione Completa"
       ],
       "total": "55€"
     },
     {
       "id": 1,
-      "roomName": "102",
-      "name": "asdasd",
-      "surname": "asdasdasd",
-      "startDate": "2020-09-17",
-      "endDate": "2020-09-20",
+      "roomName": "108",
+      "name": "asdasdasd",
+      "surname": "asdasdasdasdasd",
+      "startDate": "2021-01-05",
+      "endDate": "2021-01-05",
       "services": [
-        "Mezza Pensione",
-        "Pensione Completa"
+        "Mezza Pensione"
       ],
-      "total": "100€"
+      "total": "45€"
     }
   ],
   "Services": [
@@ -204,7 +208,7 @@
   ],
   "Tags": [
     {
-      "name": "TV Rotta",
+      "name": "Manutenzione",
       "icon": "exclamation"
     },
     {
