@@ -9,8 +9,9 @@
   "author": "vacwm",
   "license": "ISC",
   "devDependencies": {
-    "electron-nightly": "^11.0.0-nightly.20200703",
-    "lowdb": "^1.0.0"
+    "electron-nightly": "^12.0.0-nightly.20200903"
   },
-  "dependencies": {}
+  "dependencies": {
+    "lowdb": "^1.0.0"
+  }
 }

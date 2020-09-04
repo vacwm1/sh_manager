@@ -10,7 +10,9 @@ const low = require('lowdb'),
     CLT = document.querySelector('#customerLineTitle'),
     ctxMenu = document.querySelector('#ctxMenu');
 
-let selectedElement, currentTable, currentWindow;
+let usedMonth = today.getMonth(),
+    usedYear = today.getFullYear(),
+    selectedElement, currentTable, currentWindow; 
 
 db.defaults({ Rooms: [], Customers: [], Services: [], Tags: [] }).write();
 
@@ -114,7 +116,9 @@ const buildPrintList = () => {
             roomValues = value[0],
             customerNum = value.length - 1;
 
-        if (customerNum == 0) roomValues.push('', '', '', '');  
+        value.forEach(val => val.forEach(v => { if (Array.isArray(v)) val[val.indexOf(v)] = v.join(', </br>') }));
+
+        if (customerNum == 0) roomValues.push('', '', '', ''); 
         roomValues.forEach(rV => {
             if (rV.length == 0) rV = `<div contentEditable='true' class='noteBox'></div>`;
             rowLine.insertAdjacentHTML('beforeend', `<td rowspan='${customerNum}'>${rV}</td>`);
@@ -125,8 +129,7 @@ const buildPrintList = () => {
         for (i=1; i<value.length; i++) {
             const customer = value[i];
             
-            customer.slice(1, 3).forEach(date => customer[customer.indexOf(date)] = new Date(date).toLocaleDateString('it-IT'));
-            customer[3] = customer[3].join(', </br>');
+            customer.slice(1,3).forEach(date => customer[customer.indexOf(date)] = new Date(date).toLocaleDateString('it-IT'));
             
             switch (i) {
                 case 1:
@@ -190,14 +193,15 @@ const changePlaceholders = () => {
     
             for (i=0; i<values.length-1; i++) {
                 const el = Object.entries(form)[i][1];
-                if (el.nodeName == 'INPUT') {
-                    if (el.type == 'date') el.value = values[i];
+                if (el.nodeName == 'INPUT' || el.nodeName == 'SELECT') {
+                    if (['date', 'select-one'].includes(el.type)) el.value = values[i]; 
                     else el.placeholder = values[i];
                 };
 
                 if (formName == 'newCustomer') {
                     document.querySelectorAll('input[name=services]').forEach(checkbox => {
-                        if (values[i].includes(checkbox.value)) checkbox.checked = true;
+                        if (values[i].includes(checkbox.value)) checkbox.checked = true; 
+                        else checkbox.checked = false;
                     });
                 }
             };
@@ -231,7 +235,7 @@ const checkTags = () => {
     })    
 };
 
-const displayCustomerLines = (month, year, percentage) => {
+const displayCustomerLines = (percentage) => {
     customersList.forEach(customer => {
         document.querySelectorAll('.roomsRow').forEach(row => {
             const roomName = row.childNodes[0].innerHTML,
@@ -250,22 +254,28 @@ const displayCustomerLines = (month, year, percentage) => {
             };
             
             if (roomName == customer.roomName) {
-                if (isInMonth(month, year, sD, eD)) {
-                    let customerLine = document.createElement('div');
-                    
-                    let left = percentage * (sD.getDate() * 0.77) + 7.74,
-                        width = percentage * (eD.getDate() - sD.getDate()) * 0.79,
+                if (eD.getMonth() > sD.getMonth()) continueCustomerLine(sD, eD, roomLine);
+                if (isInMonth(sD, eD)) {
+                    const customerLine = document.createElement('div'),
+                        i = eD.getDate() - sD.getDate(),
+                        left = percentage * (sD.getDate() * 0.77) + 7.79,
                         lastDay = new Date(eD.getFullYear(), eD.getMonth() + 1, 0).getDate();
 
-                    if ((eD.getDate() - sD.getDate()) < 10) width += 2.5;
-                    if (eD.getDate() == lastDay && (eD.getDate() - sD.getDate()) < 5) width -= 0.9;
+                    let width = percentage * i * 0.79;
+
+                    if (i > 10 && i < 16) width -= 2;
+                    if (i < 10) width += 1;
+                    if (i < 6) {
+                        width += 1;
+                        if (eD.getDate() == lastDay) width -= 0.8;
+                    }
 
                     customerLine.className = 'customerLine';
                     customerLine.style.backgroundColor = randomColor;
                     customerLine.style.width = `${width}%`;
                     customerLine.style.left = `${left}%`;
+                    
                     roomLine.append(customerLine);
-
                     customerLine.onmouseover = (event) => showCustomerLineTitle(event, values);
                     CLT.onmouseout = () => { showItem(CLT, false); CLT.innerHTML = ''; };
                 } else roomLine.innerHTML = '';
@@ -379,6 +389,7 @@ const isDateBusy = customer => {
             eD2 = new Date(c.endDate).getTime();
 
         if (c != customer && c.roomName == customer.roomName 
+            && isInMonth(new Date(customer.startDate))
             && ((sD >= sD2 && sD <= eD2) || (sD2 >= sD && eD2 <= eD))) {
             busyList.push(c)
         } 
@@ -395,10 +406,10 @@ const isFormEmpty = form => {
     return result;
 };
 
-const isInMonth = (month, year, ...dates) => {
+const isInMonth = (...dates) => {
     let result = false;
     dates.forEach(date => {
-        if (date.getMonth() == month && date.getFullYear() == year) {result = true; return}
+        if (date.getMonth() == usedMonth && date.getFullYear() == usedYear) {result = true; return}
     })
 
     return result;
@@ -409,7 +420,9 @@ const listElements = (tableId) => {
         rowClass = `${tableId}Row`,
         list = eval(`${tableId}List`);
 
-    list.forEach(item => {
+    if (tableId == 'customers') ext = 'roomName'; else ext = 'name';
+
+    list.sort((a, b) => eval(`a.${ext}.localeCompare(b.${ext})`)).forEach(item => {
         let values = getListValues(item, 'id', 'tags'), 
             position = list.indexOf(item);
 
@@ -428,7 +441,7 @@ const listElements = (tableId) => {
 
         table.insertAdjacentHTML('beforeend',
         `<tr class='${rowClass}' id='${rowClass}${position}'><td>${values.join('</td><td>')}</td></tr>`);
-    }).value().sort((a, b) => a.name.localeCompare(b.name));
+    }).value();
 
     const rows = document.querySelectorAll(`.${rowClass}`);
 
@@ -504,6 +517,8 @@ const showTable = tableId => {
     table.style.opacity = '1';
     table.style.pointerEvents = 'auto';
     currentTable = table;
+
+    document.body.style.height = `${currentTable.childNodes.length * 100}px`;
 };
 
 const showWindow = (button, winId) => {
@@ -531,9 +546,6 @@ const showWindow = (button, winId) => {
 const days = document.querySelector('#days'),
     monthsItalian = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
 
-let usedMonth = today.getMonth(),
-    usedYear = today.getFullYear();
-
 const moveCalendar = (direction) => {
     usedMonth += direction;
   
@@ -554,10 +566,11 @@ const moveCalendar = (direction) => {
       days.append(day);
     };
  
-    displayCustomerLines(usedMonth, usedYear, 100/daysInMonth);
+    displayCustomerLines(100/daysInMonth);
 };
 
-const continueCustomerLine = (sD, eD) => {
+const continueCustomerLine = (sD, eD, line) => {
+    line.innerHTML = '';
     switch (usedMonth) {
         case sD.getMonth():
             eD.setDate(0); 
@@ -567,6 +580,9 @@ const continueCustomerLine = (sD, eD) => {
             sD.setDate(1); 
             eD.setDate(eD.getDate());
             break;
+        default:
+            sD.setDate(1);
+            eD.setDate(0);
     }
 }
 

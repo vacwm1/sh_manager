@@ -4,6 +4,7 @@ function createWindow () {
   const win = new BrowserWindow({
     width: 1680,
     height: 1028,
+    icon: 'icons/hotel.png',
     contextIsolation: true,
     resizable: false,
     webPreferences: {

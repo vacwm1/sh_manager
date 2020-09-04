@@ -140,24 +140,30 @@
     },
     {
       "id": 23,
+      "name": "123",
+      "type": "matrimoniale",
+      "tags": []
+    },
+    {
+      "id": 24,
       "name": "124",
       "type": "doppia",
       "tags": []
     },
     {
-      "id": 24,
+      "id": 25,
       "name": "125",
       "type": "doppia",
       "tags": []
     },
     {
-      "id": 25,
+      "id": 26,
       "name": "126",
       "type": "doppia",
       "tags": []
     },
     {
-      "id": 26,
+      "id": 27,
       "name": "127",
       "type": "doppia",
       "tags": []
@@ -166,36 +172,35 @@
   "Customers": [
     {
       "id": 0,
-      "roomName": "102",
-      "name": "asdasda",
-      "surname": "sdasdasd",
-      "startDate": "2020-09-16",
-      "endDate": "2020-09-19",
+      "roomName": "101",
+      "name": "adfsdfsd",
+      "surname": "fsdfsdfsdf",
+      "startDate": "2020-09-07",
+      "endDate": "2020-09-12",
       "services": [
-        "Pensione Completa"
+        "Mezza Pensione"
       ],
-      "total": "55€"
+      "total": "45€"
     },
     {
       "id": 1,
-      "roomName": "101",
-      "name": "asdasdas",
-      "surname": "dasdasdasd",
+      "roomName": "103",
+      "name": "ASDASDAS",
+      "surname": "DASDASDASD",
       "startDate": "2020-09-10",
-      "endDate": "2020-09-12",
+      "endDate": "2020-09-17",
       "services": [
-        "Mezza Pensione",
         "Pensione Completa"
       ],
       "total": "55€"
     },
     {
       "id": 2,
-      "roomName": "108",
-      "name": "asdasdasd",
-      "surname": "asdasdasdasdasd",
-      "startDate": "2021-01-05",
-      "endDate": "2021-01-05",
+      "roomName": "106",
+      "name": "asdasd",
+      "surname": "asdasdasdasd",
+      "startDate": "2020-09-17",
+      "endDate": "2020-11-17",
       "services": [
         "Mezza Pensione"
       ],
@@ -203,11 +208,48 @@
     },
     {
       "id": 3,
-      "roomName": "101",
-      "name": "adfsdfsd",
-      "surname": "fsdfsdfsdf",
-      "startDate": "2020-09-07",
-      "endDate": "2020-09-12",
+      "roomName": "106",
+      "name": "asdasdasd",
+      "surname": "asdasdasd",
+      "startDate": "2020-11-18",
+      "endDate": "2020-11-23",
+      "services": [
+        "Mezza Pensione",
+        "Pensione Completa"
+      ],
+      "total": "55€"
+    },
+    {
+      "id": 4,
+      "roomName": "106",
+      "name": "dsfsd",
+      "surname": "fsdfsdf",
+      "startDate": "2020-09-01",
+      "endDate": "2020-09-05",
+      "services": [
+        "Mezza Pensione"
+      ],
+      "total": "45€"
+    },
+    {
+      "id": 5,
+      "roomName": "106",
+      "name": "sdfsdfsdfsdf",
+      "surname": "sdfsdfsdfsdfsdf",
+      "startDate": "2020-09-26",
+      "endDate": "2020-10-13",
+      "services": [
+        "Pensione Completa"
+      ],
+      "total": "55€"
+    },
+    {
+      "id": 6,
+      "roomName": "108",
+      "name": "asdasdasd",
+      "surname": "asdasdasdasdasd",
+      "startDate": "2021-01-05",
+      "endDate": "2021-01-05",
       "services": [
         "Mezza Pensione"
       ],
