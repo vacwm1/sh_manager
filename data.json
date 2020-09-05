@@ -196,15 +196,15 @@
     },
     {
       "id": 2,
-      "roomName": "106",
-      "name": "asdasd",
-      "surname": "asdasdasdasd",
-      "startDate": "2020-09-17",
-      "endDate": "2020-11-17",
+      "roomName": "104",
+      "name": "okookokokok",
+      "surname": "llolololololololo",
+      "startDate": "2020-09-01",
+      "endDate": "2020-09-04",
       "services": [
-        "Mezza Pensione"
+        "Pensione Completa"
       ],
-      "total": "45€"
+      "total": "55€"
     },
     {
       "id": 3,
@@ -245,6 +245,19 @@
     },
     {
       "id": 6,
+      "roomName": "106",
+      "name": "okokokokko",
+      "surname": "kokokokokkok",
+      "startDate": "2020-09-17",
+      "endDate": "2020-10-30",
+      "services": [
+        "Mezza Pensione",
+        "Pensione Completa"
+      ],
+      "total": "100€"
+    },
+    {
+      "id": 7,
       "roomName": "108",
       "name": "asdasdasd",
       "surname": "asdasdasdasdasd",
@@ -254,6 +267,18 @@
         "Mezza Pensione"
       ],
       "total": "45€"
+    },
+    {
+      "id": 8,
+      "roomName": "103",
+      "name": "kiiki",
+      "surname": "ikikikikik",
+      "startDate": "2020-09-11",
+      "endDate": "2020-11-19",
+      "services": [
+        "Pensione Completa"
+      ],
+      "total": "55€"
     }
   ],
   "Services": [

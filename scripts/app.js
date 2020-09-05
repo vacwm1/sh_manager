@@ -108,7 +108,7 @@ const addClassesToChildren = (parent, ...classes) => {
 
 const buildPrintList = () => {
     const table = document.querySelector('#printList'),
-        values = getRoomsAndCustomers();
+        values = getRoomsAndNewCustomers();
 
     Object.entries(values).forEach(([key, value]) => {
         const row = document.createElement('tbody'),
@@ -245,25 +245,27 @@ const displayCustomerLines = (percentage) => {
                 values = {0: getListValues(customer, 'id', 'roomName')},
                 busyCustomers = isDateBusy(customer),
                 randomColor = '#'+Math.random().toString(16).substr(-6);
-
             
             if (busyCustomers.length > 0) {
                 for (i=0; i<busyCustomers.length; i++) {
                     values[i + 1] = getListValues(busyCustomers[i], 'id', 'roomName');
                 }
             };
-            
+
             if (roomName == customer.roomName) {
-                if (eD.getMonth() > sD.getMonth()) continueCustomerLine(sD, eD, roomLine);
                 if (isInMonth(sD, eD)) {
+                    if (eD.getMonth() > sD.getMonth()) {continueCustomerLine(sD, eD, roomLine);}
+
                     const customerLine = document.createElement('div'),
-                        i = eD.getDate() - sD.getDate(),
+                        i = eD.getDate() - sD.getDate(), 
                         left = percentage * (sD.getDate() * 0.77) + 7.79,
                         lastDay = new Date(eD.getFullYear(), eD.getMonth() + 1, 0).getDate();
 
                     let width = percentage * i * 0.79;
 
-                    if (i > 10 && i < 16) width -= 2;
+                    
+                    
+                    if (i > 10 && i < 25) width -= 2.3;
                     if (i < 10) width += 1;
                     if (i < 6) {
                         width += 1;
@@ -350,7 +352,7 @@ const getListValues = (list, ...exc) => {
     return values;
 }
 
-const getRoomsAndCustomers = () => {
+const getRoomsAndNewCustomers = () => {
     const values = {};
 
     roomsList.forEach(room => {
@@ -385,12 +387,12 @@ const isDateBusy = customer => {
         let busyList = [];
     
     customersList.forEach(c => {
-        const sD2 = new Date(c.startDate).getTime(),
-            eD2 = new Date(c.endDate).getTime();
+        const sD2 = new Date(c.startDate),
+            eD2 = new Date(c.endDate);
 
         if (c != customer && c.roomName == customer.roomName 
-            && isInMonth(new Date(customer.startDate))
-            && ((sD >= sD2 && sD <= eD2) || (sD2 >= sD && eD2 <= eD))) {
+            && isInMonth(sD2, eD2) && ((sD >= sD2.getTime() && sD <= eD2.getTime()) 
+            || (sD2.getTime() >= sD && eD2.getTime() <= eD))) {
             busyList.push(c)
         } 
     }).value();
@@ -411,6 +413,8 @@ const isInMonth = (...dates) => {
     dates.forEach(date => {
         if (date.getMonth() == usedMonth && date.getFullYear() == usedYear) {result = true; return}
     })
+    
+    if (dates.length > 1 && usedMonth > dates[0].getMonth() && usedMonth < dates[1].getMonth()) result = true; 
 
     return result;
 };
@@ -570,19 +574,22 @@ const moveCalendar = (direction) => {
 };
 
 const continueCustomerLine = (sD, eD, line) => {
-    line.innerHTML = '';
-    switch (usedMonth) {
-        case sD.getMonth():
+    switch (true) {
+        case usedMonth == sD.getMonth():
             eD.setDate(0); 
             sD.setDate(sD.getDate());
             break;
-        case eD.getMonth():
+        case usedMonth == eD.getMonth():
             sD.setDate(1); 
             eD.setDate(eD.getDate());
             break;
-        default:
+        case usedMonth > sD.getMonth()
+            && usedMonth < eD.getMonth():
             sD.setDate(1);
             eD.setDate(0);
+            break;
+        default:
+
     }
 }
 
