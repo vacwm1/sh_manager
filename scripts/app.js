@@ -308,6 +308,7 @@ const displayListItems = ([list, target, elemType, ...params]) => {
                 el.name = 'services',
                 label = document.createElement('label');
                 label.innerHTML = label.htmlFor = el.value;
+                label.innerHTML += '<br>'
                 break;
         }
 
@@ -646,7 +647,7 @@ window.onload = () => {
 
     const ListItems = {
         0: [roomsList, document.forms.newCustomer.roomName, 'option', 'value'],
-        1: [servicesList, document.querySelector('#customerWindow'), 'input', 'value'],
+        1: [servicesList, document.querySelector('#servicesList'), 'input', 'value'],
         2: [tagsList, document.querySelector('#tagsList'), 'menu', 'id'],
     },
     lists = getListValues(ListItems);

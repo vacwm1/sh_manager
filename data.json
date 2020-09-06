@@ -169,128 +169,15 @@
       "tags": []
     }
   ],
-  "Customers": [
+  "Customers": [],
+  "Tags": [
     {
-      "id": 0,
-      "roomName": "101",
-      "name": "adfsdfsd",
-      "surname": "fsdfsdfsdf",
-      "startDate": "2020-09-07",
-      "endDate": "2020-09-12",
-      "services": [
-        "Mezza Pensione"
-      ],
-      "total": "45€"
+      "name": "Manutenzione",
+      "icon": "exclamation"
     },
     {
-      "id": 1,
-      "roomName": "103",
-      "name": "ASDASDAS",
-      "surname": "DASDASDASD",
-      "startDate": "2020-09-10",
-      "endDate": "2020-09-17",
-      "services": [
-        "Pensione Completa"
-      ],
-      "total": "55€"
-    },
-    {
-      "id": 2,
-      "roomName": "103",
-      "name": "kiiki",
-      "surname": "ikikikikik",
-      "startDate": "2020-09-11",
-      "endDate": "2020-11-19",
-      "services": [
-        "Pensione Completa"
-      ],
-      "total": "55€"
-    },
-    {
-      "id": 3,
-      "roomName": "104",
-      "name": "okookokokok",
-      "surname": "llolololololololo",
-      "startDate": "2020-09-01",
-      "endDate": "2020-09-04",
-      "services": [
-        "Pensione Completa"
-      ],
-      "total": "55€"
-    },
-    {
-      "id": 4,
-      "roomName": "106",
-      "name": "asdasdasd",
-      "surname": "asdasdasd",
-      "startDate": "2020-11-18",
-      "endDate": "2020-11-23",
-      "services": [
-        "Mezza Pensione",
-        "Pensione Completa"
-      ],
-      "total": "55€"
-    },
-    {
-      "id": 5,
-      "roomName": "106",
-      "name": "dsfsd",
-      "surname": "fsdfsdf",
-      "startDate": "2020-09-01",
-      "endDate": "2020-09-05",
-      "services": [
-        "Mezza Pensione"
-      ],
-      "total": "45€"
-    },
-    {
-      "id": 6,
-      "roomName": "106",
-      "name": "sdfsdfsdfsdf",
-      "surname": "sdfsdfsdfsdfsdf",
-      "startDate": "2020-09-26",
-      "endDate": "2020-10-13",
-      "services": [
-        "Pensione Completa"
-      ],
-      "total": "55€"
-    },
-    {
-      "id": 7,
-      "roomName": "106",
-      "name": "okokokokko",
-      "surname": "kokokokokkok",
-      "startDate": "2020-09-17",
-      "endDate": "2020-10-30",
-      "services": [
-        "Mezza Pensione",
-        "Pensione Completa"
-      ],
-      "total": "100€"
-    },
-    {
-      "id": 8,
-      "roomName": "108",
-      "name": "asdasdasd",
-      "surname": "asdasdasdasdasd",
-      "startDate": "2021-01-05",
-      "endDate": "2021-01-05",
-      "services": [
-        "Mezza Pensione"
-      ],
-      "total": "45€"
-    },
-    {
-      "id": 9,
-      "roomName": "103",
-      "name": "asdasd",
-      "surname": "sdafasdfsdfsdf",
-      "startDate": "2020-11-20",
-      "endDate": "2020-11-26",
-      "services": [
-        "Pensione Completa"
-      ],
-      "total": "55€"
+      "name": "Da Pulire",
+      "icon": "broom"
     }
   ],
   "Services": [
@@ -303,16 +190,6 @@
       "id": 1,
       "name": "Pensione Completa",
       "price": "55€"
-    }
-  ],
-  "Tags": [
-    {
-      "name": "Manutenzione",
-      "icon": "exclamation"
-    },
-    {
-      "name": "Da Pulire",
-      "icon": "broom"
     }
   ]
 }
