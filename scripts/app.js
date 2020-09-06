@@ -246,8 +246,7 @@ const displayCustomerLines = (percentage) => {
             const sD = new Date(customer.startDate),
                 eD = new Date(customer.endDate),
                 values = {0: getListValues(customer, 'id', 'roomName')},
-                busyCustomers = isDateBusy(customer),
-                randomColor = '#'+Math.random().toString(16).substr(-6);
+                busyCustomers = isDateBusy(customer);
             
             if (busyCustomers.length > 0) {
                 for (i=0; i<busyCustomers.length; i++) {
@@ -266,7 +265,7 @@ const displayCustomerLines = (percentage) => {
 
                     let width = percentage * i * 0.79;     
                     
-                    if (i > 10 && i < 16 || i > 19) width -= 2.3;
+                    if (i > 10 && i < 16 || i > 19 && i < 24) width -= 2.3;
                     if (i < 10) width += 1;
                     if (i < 6) {
                         width += 1;
@@ -274,9 +273,10 @@ const displayCustomerLines = (percentage) => {
                     }
 
                     customerLine.className = 'customerLine';
-                    customerLine.style.backgroundColor = randomColor;
-                    customerLine.style.width = `${width}%`;
-                    customerLine.style.left = `${left}%`;
+                    customerLine.style.cssText = `
+                        background-color: ${randomColor()};
+                        width: ${width}%;
+                        left: ${left}%;`
                     
                     roomLine.append(customerLine);
                     customerLine.onmouseover = (event) => showCustomerLineTitle(event, values);
@@ -472,6 +472,14 @@ const printList = () => {
     document.body.innerHTML = list.innerHTML;
     document.body.outerHTML = list.outerHTML;
     window.print();
+}
+
+const randomColor = () => {
+    const h = Math.floor(Math.random() * 360),
+          s = Math.floor(Math.random() * 100) + '%',
+          l = Math.floor(Math.random() * 70) + '%';
+
+    return `hsl(${h},${s},${l})`;
 }
 
 const showContextMenu = (event, row) => {
