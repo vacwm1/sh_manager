@@ -236,11 +236,14 @@ const checkTags = () => {
 };
 
 const displayCustomerLines = (percentage) => {
-    customersList.forEach(customer => {
-        document.querySelectorAll('.roomsRow').forEach(row => {
-            const roomName = row.childNodes[0].innerHTML,
-                roomLine = row.childNodes[1].childNodes[0],
-                sD = new Date(customer.startDate),
+    document.querySelectorAll('.roomsRow').forEach(row => {
+        const roomName = row.childNodes[0].innerHTML,
+            roomLine = row.childNodes[1].childNodes[0];
+
+        roomLine.innerHTML = '';
+
+        customersList.forEach(customer => {
+            const sD = new Date(customer.startDate),
                 eD = new Date(customer.endDate),
                 values = {0: getListValues(customer, 'id', 'roomName')},
                 busyCustomers = isDateBusy(customer),
@@ -254,18 +257,16 @@ const displayCustomerLines = (percentage) => {
 
             if (roomName == customer.roomName) {
                 if (isInMonth(sD, eD)) {
-                    if (eD.getMonth() > sD.getMonth()) {continueCustomerLine(sD, eD, roomLine);}
+                    if (eD.getMonth() > sD.getMonth()) continueCustomerLine(sD, eD);
 
                     const customerLine = document.createElement('div'),
                         i = eD.getDate() - sD.getDate(), 
                         left = percentage * (sD.getDate() * 0.77) + 7.79,
                         lastDay = new Date(eD.getFullYear(), eD.getMonth() + 1, 0).getDate();
 
-                    let width = percentage * i * 0.79;
-
+                    let width = percentage * i * 0.79;     
                     
-                    
-                    if (i > 10 && i < 25) width -= 2.3;
+                    if (i > 10 && i < 16 || i > 19) width -= 2.3;
                     if (i < 10) width += 1;
                     if (i < 6) {
                         width += 1;
@@ -280,10 +281,10 @@ const displayCustomerLines = (percentage) => {
                     roomLine.append(customerLine);
                     customerLine.onmouseover = (event) => showCustomerLineTitle(event, values);
                     CLT.onmouseout = () => { showItem(CLT, false); CLT.innerHTML = ''; };
-                } else roomLine.innerHTML = '';
+                };
             }
-        });
-    }).value();
+        }).value();
+    });
 };
 
 const displayListItems = ([list, target, elemType, ...params]) => {
@@ -573,7 +574,7 @@ const moveCalendar = (direction) => {
     displayCustomerLines(100/daysInMonth);
 };
 
-const continueCustomerLine = (sD, eD, line) => {
+const continueCustomerLine = (sD, eD) => {
     switch (true) {
         case usedMonth == sD.getMonth():
             eD.setDate(0); 
@@ -588,8 +589,6 @@ const continueCustomerLine = (sD, eD, line) => {
             sD.setDate(1);
             eD.setDate(0);
             break;
-        default:
-
     }
 }
 
