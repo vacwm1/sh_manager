@@ -38,7 +38,7 @@ class Element {
             case customersList:
                 if (values.startDate > values.endDate) {alert('Per favore inserire una data valida.'); return; };
                 values.services = [];
-                document.querySelectorAll('input[name=services]').forEach(checkbox => {
+                document.querySelectorAll('#servicesList input').forEach(checkbox => {
                     if (checkbox.checked == true) {
                         values.services.push(checkbox.value);
                     }
@@ -55,18 +55,21 @@ class Element {
     };
 
     edit() {
-        let list = {services: []};
+        const list = {};
 
         Object.entries(this.form).forEach(([key, object]) => {
-            if (object.name && object.value) list[object.name] = object.value;
+            if (object.name && object.value && object.name != 'services') list[object.name] = object.value;
         });
 
         if (this.currentList == customersList) {
-            document.querySelectorAll('input[name=services]').forEach(checkbox => {
+            list.services = [];
+            document.querySelectorAll('#servicesList input').forEach(checkbox => {
                 if (checkbox.checked == true) {
                     list.services.push(checkbox.value);
                 }
             });
+
+            list.total = calcTotal(list.services).toString() + '€';
         }
         
         this.currentList.find({id: selectedElement.id}).assign(list).write();
@@ -185,11 +188,16 @@ const changePlaceholders = () => {
 
     switch (currentWindow.operation) {
         case 'add':
-            Object.entries(form).forEach(([key, object]) => {object.placeholder = ''; object.value = '';});
+            Object.entries(form).forEach(([key, object]) => {
+                if (object.name != 'services') {
+                    object.placeholder = ''; 
+                    object.value = '';
+                };
+            });
             break;
 
         case 'edit':
-            let values = getListValues(selectedElement, 'id');
+            const values = getListValues(selectedElement, 'id');
     
             for (i=0; i<values.length-1; i++) {
                 const el = Object.entries(form)[i][1];
@@ -199,7 +207,7 @@ const changePlaceholders = () => {
                 };
 
                 if (formName == 'newCustomer') {
-                    document.querySelectorAll('input[name=services]').forEach(checkbox => {
+                    document.querySelectorAll('#servicesList input').forEach(checkbox => {
                         if (values[i].includes(checkbox.value)) checkbox.checked = true; 
                         else checkbox.checked = false;
                     });
@@ -305,7 +313,7 @@ const displayListItems = ([list, target, elemType, ...params]) => {
                 break;
             case servicesList:
                 el.type = 'checkbox';
-                el.name = 'services',
+                el.name = 'services';
                 label = document.createElement('label');
                 label.innerHTML = label.htmlFor = el.value;
                 label.innerHTML += '<br>'
@@ -558,7 +566,8 @@ const showWindow = (button, winId) => {
 
 // Calendar Shit
 const days = document.querySelector('#days'),
-    monthsItalian = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+    monthsItalian = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 
+    'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
 
 const moveCalendar = (direction) => {
     usedMonth += direction;
