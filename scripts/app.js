@@ -1,5 +1,7 @@
 const low = require('lowdb'),
     FileSync = require('lowdb/adapters/FileSync'),
+    { jsPDF } = require('jspdf'),
+    printer = require('pdf-to-printer'),
     adapter = new FileSync('data.json'),
     db = low(adapter),
     roomsList = db.get('Rooms'),
@@ -476,11 +478,31 @@ const listElements = (tableId) => {
 };
 
 const printList = () => {
-    const list = document.querySelector('#printList');
+    const list = document.querySelector('#printList'),
+        doc = new jsPDF();
+    
+    doc.html(list.outerHTML, {
+        html2canvas: {
+            onclone: (el) => {
+                el.querySelectorAll('.noteBox').forEach(box => box.setAttribute('style', 'border: transparent !important'));
+                console.log(el);
+                el.querySelectorAll('tbody').forEach(row => row.style.backgroundColor = 'transparent');
+                el.querySelectorAll('td, th').forEach(cell => {
+                    cell.style.cssText = `
+                    font-size: 10px;
+                    min-width: 80px;
+                    max-width: 95px;
+                    overflow: hidden;
+                    `
+                })
+            },
+            scale: 0.3,
+        },
+        callback: (doc) => {
+        doc.save('Lista.pdf');
+    }});
 
-    document.body.innerHTML = list.innerHTML;
-    document.body.outerHTML = list.outerHTML;
-    window.print();
+    printer.print('Lista.pdf');
 }
 
 const randomColor = () => {
@@ -638,9 +660,6 @@ document.querySelectorAll('.winBtn').forEach(winBtn => {
 document.querySelectorAll('.operationButton').forEach(button => {
     button.onclick = () => {
         eval(`new Element().${currentWindow.operation}()`);
-
-        location.reload();
-        return false;
     }
 });
 
