@@ -46,4 +46,17 @@ export class RoomResolver {
         return room
     }
 
+    @Mutation(() => Boolean)
+    async deleteRoom (
+        @Arg('id') id: number,
+        @Ctx() {em}: MyContext
+    ): Promise<boolean>{
+        try {
+            await em.nativeDelete(Room, {id});
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
 }

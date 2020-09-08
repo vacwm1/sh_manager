@@ -52,6 +52,17 @@ let RoomResolver = class RoomResolver {
             return room;
         });
     }
+    deleteRoom(id, { em }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield em.nativeDelete(Room_1.Room, { id });
+                return true;
+            }
+            catch (_a) {
+                return false;
+            }
+        });
+    }
 };
 __decorate([
     type_graphql_1.Query(() => [Room_1.Room]),
@@ -87,6 +98,14 @@ __decorate([
     __metadata("design:paramtypes", [Number, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], RoomResolver.prototype, "updateRoom", null);
+__decorate([
+    type_graphql_1.Mutation(() => Boolean),
+    __param(0, type_graphql_1.Arg('id')),
+    __param(1, type_graphql_1.Ctx()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], RoomResolver.prototype, "deleteRoom", null);
 RoomResolver = __decorate([
     type_graphql_1.Resolver()
 ], RoomResolver);
