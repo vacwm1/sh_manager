@@ -2,7 +2,7 @@
   "name": "sh-manager",
   "version": "1.0.0",
   "description": "Star Center Sporting Hotel Room Management System",
-  "main": "scripts/main.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron ."
   },
