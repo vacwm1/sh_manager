@@ -84,6 +84,8 @@ class Element {
 
     del() {
         this.currentList.remove({id: selectedElement.id}).write();
+        location.reload();
+        return false;
     };
 
     print = () => printList();
