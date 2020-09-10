@@ -63,15 +63,20 @@ class Element {
             if (object.name && object.value && object.name != 'services') list[object.name] = object.value;
         });
 
-        if (this.currentList == customersList) {
-            list.services = [];
-            document.querySelectorAll('#servicesList input').forEach(checkbox => {
-                if (checkbox.checked == true) {
-                    list.services.push(checkbox.value);
-                }
-            });
+        switch (this.currentList) {
+            case customersList:
+                list.services = [];
+                document.querySelectorAll('#servicesList input').forEach(checkbox => {
+                    if (checkbox.checked == true) {
+                        list.services.push(checkbox.value);
+                    }
+                });
 
-            list.total = calcTotal(list.services).toString() + '€';
+                list.total = calcTotal(list.services).toString() + '€';
+                break;
+            case servicesList:
+                list.price += '€';
+                break;
         }
         
         this.currentList.find({id: selectedElement.id}).assign(list).write();
@@ -245,6 +250,24 @@ const checkTags = () => {
     })    
 };
 
+const continueCustomerLine = (sD, eD) => {
+    switch (true) {
+        case usedMonth == sD.getMonth():
+            eD.setDate(0); 
+            sD.setDate(sD.getDate());
+            break;
+        case usedMonth == eD.getMonth():
+            sD.setDate(1); 
+            eD.setDate(eD.getDate());
+            break;
+        case usedMonth > sD.getMonth()
+            && usedMonth < eD.getMonth():
+            sD.setDate(1);
+            eD.setDate(0);
+            break;
+    }
+}
+
 const displayCustomerLines = (percentage) => {
     document.querySelectorAll('.roomsRow').forEach(row => {
         const roomName = row.childNodes[0].innerHTML,
@@ -375,7 +398,7 @@ const getRoomsAndNewCustomers = () => {
 
         customersList.forEach(customer => {
             if (room.name == customer.roomName && new Date(customer.endDate) > today) {
-                const customerValues = getListValues(customer, 'id', 'roomName', 'name', 'total');
+                const customerValues = getListValues(customer, 'id', 'roomName', 'name', 'location', 'total');
                 values[position].push(customerValues);
             }
         }).value();
@@ -451,7 +474,7 @@ const listElements = (tableId) => {
                 for (i=3; i<5; i++) {
                     values[i] = new Date(values[i]).toLocaleDateString('it-IT');
                 };
-                values[5] = values[5].join(', ');
+                values[6] = values[6].join(', ');
                 break;
         }
 
@@ -477,22 +500,42 @@ const listElements = (tableId) => {
     }
 };
 
-const printList = () => {
+const listProvinces = () => {
+    const province = new XMLHttpRequest();
+    province.open("GET", "assets/other/province.json", false);
+    province.send()
+    list = JSON.parse(province.responseText);
+
+    list.forEach(item => {
+        const name = `${item.name.toUpperCase()} (${item.sigla})`
+        document.forms.newCustomer.location.insertAdjacentHTML('beforeend', 
+        `<option value='${name}'>${name}</option>`);
+    })
+}
+
+const printList = async () => {
     const list = document.querySelector('#printList'),
         doc = new jsPDF();
     
-    doc.html(list.outerHTML, {
+    await doc.html(list.outerHTML, {
         html2canvas: {
             onclone: (el) => {
                 el.querySelectorAll('.noteBox').forEach(box => box.setAttribute('style', 'border: transparent !important'));
-                console.log(el);
                 el.querySelectorAll('tbody').forEach(row => row.style.backgroundColor = 'transparent');
+                el.querySelectorAll('table').forEach(table => {
+                    table.style.cssText = `
+                        margin-top: 20px;
+                        border-collapse: separate;
+                        border-spacing: 0px;
+                    `
+                });
                 el.querySelectorAll('td, th').forEach(cell => {
                     cell.style.cssText = `
-                    font-size: 10px;
-                    min-width: 80px;
-                    max-width: 95px;
-                    overflow: hidden;
+                        border: 1px solid black;
+                        font-size: 10px;
+                        min-width: 80px;
+                        max-width: 95px;
+                        overflow: hidden;
                     `
                 })
             },
@@ -614,24 +657,6 @@ const moveCalendar = (direction) => {
     displayCustomerLines(100/daysInMonth);
 };
 
-const continueCustomerLine = (sD, eD) => {
-    switch (true) {
-        case usedMonth == sD.getMonth():
-            eD.setDate(0); 
-            sD.setDate(sD.getDate());
-            break;
-        case usedMonth == eD.getMonth():
-            sD.setDate(1); 
-            eD.setDate(eD.getDate());
-            break;
-        case usedMonth > sD.getMonth()
-            && usedMonth < eD.getMonth():
-            sD.setDate(1);
-            eD.setDate(0);
-            break;
-    }
-}
-
 // Buttons and Windows 
 document.querySelectorAll('.listButton').forEach(button => {
     if (button.id == 'openPrint') return;
@@ -672,11 +697,12 @@ window.onload = () => {
     checkElementIds();
     ['rooms', 'customers', 'services'].forEach(item => listElements(item));
     buildPrintList();
+    listProvinces();
 
     const ListItems = {
         0: [roomsList, document.forms.newCustomer.roomName, 'option', 'value'],
         1: [servicesList, document.querySelector('#servicesList'), 'input', 'value'],
-        2: [tagsList, document.querySelector('#tagsList'), 'menu', 'id'],
+        2: [tagsList, document.querySelector('#tagsList'), 'menu', 'id']
     },
     lists = getListValues(ListItems);
     lists.forEach(list => displayListItems(list));

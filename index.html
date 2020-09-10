@@ -7,13 +7,13 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-        <link href="styles/style.css" rel="stylesheet">
+        <link href="src/style.css" rel="stylesheet">
         <script src="https://kit.fontawesome.com/591259bba7.js" crossorigin="anonymous"></script> 
     </head>
     <body>
         <div id='logoBar'>
             <div id='title'>
-                <img id='logo' src='icons/logo.png'>
+                <img id='logo' src='assets/icons/logo.png'>
                 <h2>SH Manager</h2>
             </div> 
         </div> 
@@ -45,6 +45,7 @@
                     <th>Cognome</th>
                     <th>Data Inizio</th>
                     <th>Data Fine</th>
+                    <th>Località</th>
                     <th>Servizi</th>
                     <th>Totale</th>
                 </tr>
@@ -76,6 +77,7 @@
                     <label>Cognome:</label><input type='text' name='surname'/>
                     <label>Data Inzio:</label><input type='date' name='startDate'/>
                     <label>Data Fine:</label><input type='date' name='endDate'/>
+                    <label>Località:</label><select name='location'/></select>
                     <div id='servicesList'>
                         <label>Servizi:</label></br>
                     </div>
@@ -120,5 +122,5 @@
         </div>
         <div id='customerLineTitle'></div>
     </body>
-    <script type='text/javascript' src='scripts/app.js'></script>
+    <script type='text/javascript' src='src/app.js'></script>
 </html>
