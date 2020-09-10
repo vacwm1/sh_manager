@@ -230,8 +230,8 @@ input:not([type=checkbox]), select, textarea {
   width: auto;
 }
 
-input[type=date] {
-  width: 35%;
+input[type=date], #locationBox{
+  width: 25%;
   margin-right: 30px;
 }
 
