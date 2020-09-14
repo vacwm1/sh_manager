@@ -86,10 +86,6 @@ body {
   padding: 8px;
 }
 
-.list:not(#rooms) th {
-  cursor: pointer;
-}
-
 .list:not(#rooms) tbody:nth-child(odd){
   background-color: #2a9cf449;
 }

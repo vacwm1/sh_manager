@@ -533,8 +533,9 @@ const printList = async () => {
                 });
                 el.querySelectorAll('td, th').forEach(cell => {
                     cell.style.cssText = `
+                        padding: 4px;
                         border: 1px solid black;
-                        font-size: 10px;
+                        font-size: 8px;
                         min-width: 80px;
                         max-width: 95px;
                         overflow: hidden;
@@ -578,7 +579,7 @@ const showCustomerLineTitle = (event, values) => {
     CLT.style.left = `${(event.pageX - 50)}px`;
     CLT.style.top = `${(event.pageY - 30)}px`;
 
-    const keys = ['Nome', 'Cognome', 'Data Inzio', 'Data Fine', 'Servizi', 'Totale'],
+    const keys = ['Nome', 'Cognome', 'Data Inzio', 'Data Fine', 'Località', 'Servizi', 'Totale'],
         objects = getListValues(values);
 
     objects.forEach(object => {
