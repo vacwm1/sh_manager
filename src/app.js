@@ -373,6 +373,14 @@ const displayTags = row => {
     }).value();
 };
 
+const deleteOldCustomers = () => {
+    customersList.forEach(customer => {
+        if (today.getMonth() - new Date(customer.endDate).getMonth() >= 1) {
+            customersList.remove(customer).write()
+        }
+    }).value()
+}
+
 const getListValues = (list, ...exc) => {
     let values = [];
 
@@ -399,7 +407,7 @@ const getRoomsAndNewCustomers = () => {
         values[position] = [roomValues];
 
         customersList.forEach(customer => {
-            if (room.name == customer.roomName && new Date(customer.endDate) > today) {
+            if (room.name == customer.roomName && new Date(customer.endDate) > today.setDate(today.getDate() - 1)) {
                 const customerValues = getListValues(customer, 'id', 'roomName', 'name', 'location', 'total');
                 values[position].push(customerValues);
             }
@@ -698,6 +706,7 @@ window.onclick = (event) => {
 
 window.onload = () => {
     checkElementIds();
+    deleteOldCustomers();
     ['rooms', 'customers', 'services'].forEach(item => listElements(item));
     buildPrintList();
     listProvinces();
