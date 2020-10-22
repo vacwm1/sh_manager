@@ -303,8 +303,11 @@ const displayCustomerLines = (percentage) => {
                     if (i > 10 && i < 16 || i > 19 && i < 24) width -= 2.3;
                     if (i < 10) width += 1;
                     if (i < 6) {
-                        width += 1;
-                        if (eD.getDate() == lastDay) width -= 0.8;
+                        width += 1; 
+                    }
+                    if (eD.getDate() == lastDay) {
+                        if (i < 6) width -= 0.8;
+                        width += 3;
                     }
 
                     customerLine.className = 'customerLine';
