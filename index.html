@@ -18,10 +18,11 @@
             </div> 
         </div> 
         <div id='listButtons'>
-            <button class='listButton button' id='listRooms'><i class='fas fa-bed'></i>Stanze</button>
-            <button class='listButton button' id='listCustomers'><i class='fas fa-users'></i>Clienti</button>
-            <button class='listButton button' id='listServices'><i class='fas fa-euro-sign'></i>Servizi</button> 
-            <button class='listButton winBtn button' id='openPrint'><i class='fas fa-print'></i>Stampa</button>
+            <button class='listButton' id='listRooms'><i class='fas fa-bed'></i>Stanze</button>
+            <button class='listButton' id='listCustomers'><i class='fas fa-users'></i>Clienti</button>
+            <button class='listButton' id='listServices'><i class='fas fa-euro-sign'></i>Servizi</button> 
+            <button class='listButton winBtn' id='openPrint'><i class='fas fa-print'></i>Stampa</button>
+            <button class='listButton winBtn' id='openDB'><i class='fas fa-database'></i>DB</button>
         </div>
         <div id='lists'>
             <table class='list' id='rooms'>
@@ -107,9 +108,14 @@
                     </tr>
                 </table>
             </div>
+            <div class='window' id='dbWindow'>
+                <label>Directory DB:</label><input type='text' id='dbDir'/>    
+                <button id='dbButton'><i class='fas fa-save'></i>Salva</button>
+                <button id='backupDB'><i class='fas fa-undo'></i>Backup</button>
+            </div>
             <div class='window' id='confirmWindow'>
                 <h2>Siete sicuri di voler eliminare quest'elemento?</h2>
-                <button class='operationButton button' id='confirmYes'>Sì</button>
+                <button class='operationButton' id='confirmYes'>Sì</button>
                 <button class='button' id='confirmNo'>No</button>
             </div>
         </div>

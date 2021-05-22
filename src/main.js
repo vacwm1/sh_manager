@@ -6,6 +6,7 @@ function createWindow () {
     height: 1028,
     icon: 'assets/icons/hotel.ico',
     contextIsolation: true,
+    frame: false,
     resizable: false,
     webPreferences: {
       nodeIntegration: true

@@ -42,7 +42,7 @@ body {
   text-align: center;
 }
 
-.button{
+button, .button {
   width: 10%;
   padding: 0.5em;
   border: 1px solid#2a9df4;
@@ -56,7 +56,7 @@ body {
   margin: 0 1em 0 1.5em;
 }
 
-.button:hover {
+button:hover, .button:hover {
   color: white;
   background-color: #2a9df4;
   cursor: pointer;

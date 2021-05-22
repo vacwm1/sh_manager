@@ -1,10 +1,39 @@
 const low = require('lowdb'),
+    fs = require("fs"),
     FileSync = require('lowdb/adapters/FileSync'),
+    reader = new FileReader(),
     { jsPDF } = require('jspdf'),
     printer = require('pdf-to-printer'),
-    adapter = new FileSync('data.json'),
-    db = low(adapter),
-    roomsList = db.get('Rooms'),
+    DEFAULT_DB = __dirname + "/data.json",
+    DYNAMIC_DB = __dirname + "/dbDir.txt",
+    BACKUP_DIR = __dirname + "/data_backup.json";
+
+// Does the DYNAMIC_DB exist?
+let dbDir;
+try {
+    fs.readFileSync(DYNAMIC_DB, { encoding: 'utf-8', flag: 'r' });
+}
+catch {
+    dbDir = DEFAULT_DB;
+}
+
+// Is the DYNAMIC_DB readable?
+let db, adapter;
+const syncDB = (dir) => {
+    adapter = new FileSync(dir);
+    db = low(adapter);
+}
+
+try {
+    syncDB(dbDir);
+}
+catch (err) {
+    alert(err + ".\nVerra' ripristinato il DB originale.");
+    fs.writeFileSync(DYNAMIC_DB, DEFAULT_DB);
+    location.reload();
+}
+
+const roomsList = db.get('Rooms'),
     customersList = db.get('Customers'),
     servicesList = db.get('Services'),
     tagsList = db.get('Tags'),
@@ -630,6 +659,9 @@ const showWindow = (button, winId) => {
         case 'openPrint':
             winId = 'printWindow';
             break;
+        case 'openDB':
+            winId = 'dbWindow';
+            break;
         default:
             winId = `${currentTable.id.slice(0, -1)}Window`;
     } 
@@ -702,12 +734,33 @@ document.querySelectorAll('.operationButton').forEach(button => {
     }
 });
 
+// DB Shit
+document.querySelector("#dbButton").onclick = () => {
+    const newDir = document.querySelector("#dbDir").value;
+    if (newDir) {
+        fs.writeFileSync(DYNAMIC_DB, newDir);
+        alert("DB cambiato con successo!");
+    }
+    else alert("Nessun nuovo valore specificato.");
+
+    location.reload()
+}
+
+document.querySelector("#backupDB").onclick = () => {
+    const data = fs.readFileSync(dbDir, { encoding: 'utf-8', flag: 'r'});
+    fs.writeFileSync(BACKUP_DIR, data);
+    alert(`Backup creato con successo in ${BACKUP_DIR}`);
+    location.reload(); 
+}
+
+// Window Shit
 window.onclick = (event) => {
     showItem(ctxMenu, false);
     hideWindow(event);
 };
 
 window.onload = () => {
+    document.querySelector("#dbDir").placeholder = `Corrente: ${dbDir}`;
     checkElementIds();
     deleteOldCustomers();
     ['rooms', 'customers', 'services'].forEach(item => listElements(item));
