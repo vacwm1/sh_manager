@@ -1,12 +1,23 @@
+const os = require("os");
+let p;
+switch (os.platform()){
+    case "darwin", "linux":
+        p = "/";
+        break
+    case "win32":
+        p = "\\";
+        break
+}
+
 const low = require('lowdb'),
     fs = require("fs"),
     FileSync = require('lowdb/adapters/FileSync'),
     reader = new FileReader(),
     { jsPDF } = require('jspdf'),
     printer = require('pdf-to-printer'),
-    DEFAULT_DB = __dirname + "/data.json",
-    DYNAMIC_DB = __dirname + "/dbDir.txt",
-    BACKUP_DIR = __dirname + "/data_backup.json";
+    DEFAULT_DB = __dirname + `${p}data.json`,
+    DYNAMIC_DB = __dirname + `${p}dbDir.txt`,
+    BACKUP_DIR = __dirname + `${p}data_backup.json`;
 
 // Does the DYNAMIC_DB exist?
 let dbDir;
@@ -675,7 +686,7 @@ const showWindow = (button, winId) => {
     changePlaceholders();
 };
 
-// Calendar Shit
+// Calendar
 const days = document.querySelector('#days'),
     monthsItalian = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 
     'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
@@ -734,7 +745,7 @@ document.querySelectorAll('.operationButton').forEach(button => {
     }
 });
 
-// DB Shit
+// DB
 document.querySelector("#dbButton").onclick = () => {
     const newDir = document.querySelector("#dbDir").value;
     if (newDir) {
@@ -753,7 +764,7 @@ document.querySelector("#backupDB").onclick = () => {
     location.reload(); 
 }
 
-// Window Shit
+// Window
 window.onclick = (event) => {
     showItem(ctxMenu, false);
     hideWindow(event);
