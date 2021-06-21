@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -28,3 +28,8 @@ app.on('activate', () => {
     createWindow()
   }
 });
+
+ipcMain.on('open-file-dialog', (event) => {
+  const files = dialog.showOpenDialogSync({ properties: ['openFile'] });
+  if (files) event.reply('selected-file', files);
+})

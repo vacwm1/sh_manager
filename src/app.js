@@ -1,46 +1,45 @@
-const os = require("os");
-let p;
-switch (os.platform()){
-    case "darwin", "linux":
-        p = "/";
-        break
-    case "win32":
-        p = "\\";
-        break
-}
 
 const low = require('lowdb'),
     fs = require("fs"),
+    { join } = require("path"),
     FileSync = require('lowdb/adapters/FileSync'),
-    reader = new FileReader(),
+    { ipcRenderer } = require("electron"),
     { jsPDF } = require('jspdf'),
     printer = require('pdf-to-printer'),
-    DEFAULT_DB = __dirname + `${p}data.json`,
-    DYNAMIC_DB = __dirname + `${p}dbDir.txt`,
-    BACKUP_DIR = __dirname + `${p}data_backup.json`;
+    DEFAULT_DB = join(__dirname, 'data.json'),
+    DYNAMIC_DB = join(__dirname, 'dbDir.txt'),
+    BACKUP_DIR = join(__dirname, 'data_backup.json');
 
-// Does the DYNAMIC_DB exist?
-let dbDir;
-try {
-    fs.readFileSync(DYNAMIC_DB, { encoding: 'utf-8', flag: 'r' });
-}
-catch {
-    dbDir = DEFAULT_DB;
-}
+const restoreDefaultDB = () => fs.writeFileSync(DYNAMIC_DB, DEFAULT_DB);
+if (!fs.existsSync(DYNAMIC_DB)) restoreDefaultDB();
 
-// Is the DYNAMIC_DB readable?
 let db, adapter;
 const syncDB = (dir) => {
     adapter = new FileSync(dir);
-    db = low(adapter);
+    db = low(adapter)
 }
 
+const dbDir = fs.readFileSync(DYNAMIC_DB, { encoding: 'utf-8', flag: 'r' });
+if (!fs.existsSync(dbDir)) {
+    alert("File database non trovato. Verra' ripristinato il DB originale.");
+    restoreDefaultDB();
+    location.reload();
+}
+
+// Is DB valid?
 try {
     syncDB(dbDir);
 }
 catch (err) {
-    alert(err + ".\nVerra' ripristinato il DB originale.");
-    fs.writeFileSync(DYNAMIC_DB, DEFAULT_DB);
+    alert(`${err}.\n Verra' ripristinato il DB originale.`);
+    restoreDefaultDB();
+
+    // If DEFAULT_DB has been corrupted...
+    if (dbDir === DEFAULT_DB) {
+        fs.unlinkSync(DEFAULT_DB);
+        syncDB(dbDir);
+    }
+
     location.reload();
 }
 
@@ -746,16 +745,21 @@ document.querySelectorAll('.operationButton').forEach(button => {
 });
 
 // DB
-document.querySelector("#dbButton").onclick = () => {
+const updateDB = () => {
     const newDir = document.querySelector("#dbDir").value;
-    if (newDir) {
+    if (newDir.length > 0) {
         fs.writeFileSync(DYNAMIC_DB, newDir);
         alert("DB cambiato con successo!");
     }
     else alert("Nessun nuovo valore specificato.");
 
-    location.reload()
+    location.reload();
 }
+
+document.querySelector("#dbButton").onclick = () => updateDB();
+
+document.querySelector("#folderOpen").onclick = () => ipcRenderer.send('open-file-dialog');
+ipcRenderer.on('selected-file', (_, path) => document.querySelector("#dbDir").value = path);
 
 document.querySelector("#backupDB").onclick = () => {
     const data = fs.readFileSync(dbDir, { encoding: 'utf-8', flag: 'r'});
